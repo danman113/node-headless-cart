@@ -49,7 +49,9 @@ module.exports = class Cart {
         LEFT JOIN cart_item on cart.cart_id = cart_item.cart_id
         LEFT JOIN item on cart_item.item_id = item.item_id
         LEFT JOIN seller on item.seller_id = seller.seller_id
-      WHERE cart.cart_id = $cartId
+      WHERE
+        cart.cart_id = $cartId
+        AND cart.expires > date('now')
       ;
     `, { $cartId: this.cartId })
   }
@@ -60,8 +62,9 @@ module.exports = class Cart {
 
   async upsertItem(db, itemId, quantity) {
 
-    // TODO Make sure that items are from the same seller
-    // TODO Make sure that items have sufficient stock when adding to cart
+    // TODO Make sure that items are from the same seller (use trigger)
+    // TODO Make sure that items have sufficient stock when adding to cart (use trigger)
+    // TODO Delete when value is zero (use trigger)
     return await db.update(`
       INSERT OR REPLACE INTO cart_item (cart_item_id, cart_id, item_id, quantity) 
       VALUES ((SELECT cart_item_id FROM cart_item WHERE item_id = $itemId), $cartId, $itemId, $quantity);
