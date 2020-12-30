@@ -1,0 +1,29 @@
+{
+  "name": "headless-cart",
+  "version": "1.0.0",
+  "description": "A node.js headless shopping cart",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danman113/node-headless-cart.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danman113/node-headless-cart/issues"
+  },
+  "homepage": "https://github.com/danman113/node-headless-cart#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "dayjs": "^1.9.8",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "sqlite3": "^5.0.0",
+    "uuid": "^8.3.2"
+  }
+}
