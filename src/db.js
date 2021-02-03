@@ -1,5 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
+const { readFileSync } = require('fs');
 const { promisify } = require('util')
+const { isDev } = require('./utils')
 
 class DB {
   constructor() {
@@ -7,6 +9,7 @@ class DB {
     this._run = promisify(this.db.run).bind(this.db)
     this._get = promisify(this.db.get).bind(this.db)
     this._getAll = promisify(this.db.all).bind(this.db)
+    if (isDev()) this.db.run(readFileSync('init-db.sql', { encoding: 'utf-8' }))
   }
 
   async update (query, ...args) {

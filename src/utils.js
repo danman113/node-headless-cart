@@ -10,6 +10,9 @@ const setCookie = (res, key, value, expiration) => {
   })
 }
 
+const isDev = () => process.env.NODE_ENV !== 'production'
+
 module.exports = {
-  setCookie
+  setCookie,
+  isDev
 }

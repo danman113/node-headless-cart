@@ -56,15 +56,25 @@ module.exports = class Cart {
     `, { $cartId: this.cartId })
   }
 
-  async verifyItemIsFromSeller (db, itemId, sellerId) {
-    db.get('S')
+  async getItemStock (db, itemId, sellerId) {
+    try {
+      const item = await db.getOne('SELECT item.stock as stock FROM item WHERE item.item_id = $itemId AND item.seller_id = $sellerId', {
+        $itemId: itemId,
+        $sellerId: sellerId
+      })
+      if (!item) throw new Error()
+      return item
+    } catch (e) {
+      console.error(e)
+      throw new Error('Item does not belong to seller')
+    }
   }
 
   async upsertItem(db, itemId, quantity) {
-
-    // TODO Make sure that items are from the same seller (use trigger)
-    // TODO Make sure that items have sufficient stock when adding to cart (use trigger)
-    // TODO Delete when value is zero (use trigger)
+    const item = await this.getItemStock(db, itemId, this.sellerId)
+    if (item.stock < quantity) {
+      throw new Error('Not enough stock for item')
+    }
     return await db.update(`
       INSERT OR REPLACE INTO cart_item (cart_item_id, cart_id, item_id, quantity) 
       VALUES ((SELECT cart_item_id FROM cart_item WHERE item_id = $itemId), $cartId, $itemId, $quantity);

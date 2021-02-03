@@ -4,7 +4,8 @@
   "description": "A node.js headless shopping cart",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/danman113/node-headless-cart#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "dayjs": "^1.9.8",
     "dotenv": "^8.2.0",
